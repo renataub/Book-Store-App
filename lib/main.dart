@@ -1,6 +1,6 @@
 import 'package:book_app/model/model.dart';
 import 'package:flutter/material.dart';
-import 'screen/intro_screen.dart';
+import 'screen/login.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,7 +23,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: isDarkMode ? ThemeData.dark() : ThemeData.light(),
-      home: IntroScreen(
+      home: LoginPage(
         toggleDarkMode: toggleDarkMode,
         isDarkMode: isDarkMode,
       ),
