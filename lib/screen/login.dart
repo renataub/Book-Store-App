@@ -1,6 +1,7 @@
 import 'package:book_app/model/model.dart';
 import 'package:book_app/screen/intro_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'register.dart';
 
@@ -16,6 +17,30 @@ class LoginPage extends StatefulWidget{
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  void _login() async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: userNameController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => IntroScreen(
+            isDarkMode: widget.isDarkMode,
+            toggleDarkMode: widget.toggleDarkMode,
+          ),
+        ),
+      );
+    } catch (e) {
+      print("user not found, please check userName and password: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Login failed')),
+      );
+    }
+  }
 
   Widget build(BuildContext context){
     return Scaffold(
@@ -36,14 +61,7 @@ class _LoginPageState extends State<LoginPage> {
               _buildTextField(passwordController, 'Password', obscureText: true),
               SizedBox(height: 15),
               ElevatedButton(
-                onPressed: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => IntroScreen(toggleDarkMode: widget.toggleDarkMode, isDarkMode: widget.isDarkMode),
-                    ),
-                  );
-                },
+                onPressed: _login,
                 child: Text('Login'),
               ),
               TextButton(

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "77826399449",
+    "project_id": "book-app-adeaa",
+    "storage_bucket": "book-app-adeaa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:77826399449:android:ea0878c610c6d8937172c8",
+        "android_client_info": {
+          "package_name": "com.example.book_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVVveBBVe2-SLXXxSmnw_RoOq_xcRpIx4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,7 @@
 import 'package:book_app/screen/intro_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../model/model.dart';
 
@@ -17,6 +18,32 @@ class _RegisterPageState extends State<RegisterPage>{
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  void _register() async {
+    try{
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => IntroScreen(
+            isDarkMode: widget.isDarkMode,
+            toggleDarkMode: widget.toggleDarkMode,
+          ),
+        ),
+      );
+    }
+    catch(e){
+      print("registration failed: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Registration Failed"),),
+      );
+    }
+  }
+
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,17 +66,7 @@ class _RegisterPageState extends State<RegisterPage>{
               _buildTextField(passwordController, "Password", obscureText: true),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => IntroScreen(
-                        toggleDarkMode: widget.toggleDarkMode,
-                        isDarkMode: widget.isDarkMode
-                      ),
-                    ),
-                  );
-                },
+                onPressed: _register,                
                 child: Text("Register"),
               ),
             ],
